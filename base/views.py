@@ -16,8 +16,13 @@ from django.db import transaction
 
 from .models import Task
 from .forms import PositionForm
-import pdb;
+from django.contrib.auth.models import User
+from rest_framework import viewsets
+from .serializers import NewTaskSerializer
 
+class NewTaskViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all().order_by('id')
+    serializer_class = NewTaskSerializer
 
 class CustomLoginView(LoginView):
     template_name = 'base/login.html'

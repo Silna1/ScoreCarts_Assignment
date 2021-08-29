@@ -1,6 +1,10 @@
-from django.urls import path
-from .views import TaskList, TaskDetail, TaskCreate, TaskUpdate, DeleteView, CustomLoginView, RegisterPage, TaskReorder
+from django.urls import path, include
+from .views import TaskList, TaskDetail, TaskCreate, TaskUpdate, DeleteView, CustomLoginView, RegisterPage, TaskReorder, NewTaskViewSet
 from django.contrib.auth.views import LogoutView
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'Taskdata', NewTaskViewSet)
 
 urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
@@ -13,4 +17,6 @@ urlpatterns = [
     path('task-update/<int:pk>/', TaskUpdate.as_view(), name='task-update'),
     path('task-delete/<int:pk>/', DeleteView.as_view(), name='task-delete'),
     path('task-reorder/', TaskReorder.as_view(), name='task-reorder'),
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
